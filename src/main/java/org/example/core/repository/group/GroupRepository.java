@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
@@ -32,17 +33,17 @@ public class GroupRepository implements IGroupRepository{
 
 
     @Override
-    public GetGroupResponse getGroup() {
+    public List<Group> getGroup() {
 
         String sql = "select * from groups";
-        return new GetGroupResponse(jdbcOperations.query(sql,grouRowMapper));
+        return jdbcOperations.query(sql,grouRowMapper);
     }
 
     @Override
-    public GetGroupByIdResponse getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
+    public Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
         try{
         String sql = "select group_name from groups where group_id=?";
-        return new GetGroupByIdResponse(jdbcOperations.queryForObject(sql,grouRowMapper,request.getGroupId()));}
+        return jdbcOperations.queryForObject(sql,grouRowMapper,request.getGroupId());}
         catch (DataAccessException e) {
             throw new EmptyDataException("Group with id: " + request.getGroupId() + " not found!");
         }
@@ -50,7 +51,7 @@ public class GroupRepository implements IGroupRepository{
     }
 
     @Override
-    public AddGroupResponse addGroup(AddGroupRequest request) throws EmptyDataException {/////уверен в return?
+    public long addGroup(AddGroupRequest request) throws EmptyDataException {/////уверен в return?
         try {
             String sql = "insert into groups (group_name) values (?)";
             GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -60,21 +61,20 @@ public class GroupRepository implements IGroupRepository{
                 return preparedStatement;
             };
             //jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
-            return new AddGroupResponse(jdbcOperations.update(preparedStatementCreator, generatedKeyHolder));
+            return jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
         } catch (DataAccessException e) {
             throw new EmptyDataException("Can't add group with name" + request.getName());
         }
     }
 
     @Override
-    public EditGroupResponse editGroup(EditGroupRequest request) throws EmptyDataException { ////Integer.toString???????
+    public void editGroup(EditGroupRequest request) throws EmptyDataException { ////Integer.toString???????
         try {
             String sql = "update groups set group_name = ? where group_id = ?";
             int rowsChanged = jdbcOperations.update(sql, request.getName(), request.getId());
             if (rowsChanged == 0) {
                 throw new EmptyDataException("Can't edit group: " + request);
             }
-            return new EditGroupResponse(Integer.toString(jdbcOperations.update(sql, request.getName(), request.getId())));
         } catch (DataAccessException e) {
             throw new EmptyDataException("Can't edit group: " + request);
         }

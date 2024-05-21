@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class AddGroupResponse {
     //private String name;
-    private int id;
+    private long id;
 
-    public AddGroupResponse( int id) {
+    public AddGroupResponse( long id) {
         //this.name = name;
         this.id = id;
     }
@@ -15,7 +15,7 @@ public class AddGroupResponse {
         return name;
     }*/
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

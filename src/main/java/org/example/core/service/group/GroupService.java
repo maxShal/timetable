@@ -1,9 +1,12 @@
 package org.example.core.service.group;
 
 import org.example.core.EmptyDataException;
+import org.example.core.model.Group;
 import org.example.core.repository.group.IGroupRepository;
 import org.example.web.model.group.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GroupService implements IGroupService
@@ -16,27 +19,28 @@ public class GroupService implements IGroupService
     }
 
     @Override
-    public GetGroupResponse GetAllGroups() {
+    public List<Group> GetAllGroups() {
         return groupRepository.getGroup();
     }
 
     @Override
-    public GetGroupByIdResponse getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
+    public Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
         return groupRepository.getGroupById(request);
     }
 
     @Override
-    public AddGroupResponse addGroup(AddGroupRequest request) {
+    public long addGroup(AddGroupRequest request) throws EmptyDataException {
         return groupRepository.addGroup(request);
     }
 
     @Override
-    public EditGroupResponse editGroup(EditGroupRequest request) throws EmptyDataException {
-        return groupRepository.editGroup(request);
+    public String editGroup(EditGroupRequest request) throws EmptyDataException {
+        groupRepository.editGroup(request);
+        return request.getName();
     }
 
     @Override
-    public void deleteGroup(DeleteGroupRequest request) {
+    public void deleteGroup(DeleteGroupRequest request) throws EmptyDataException {
         groupRepository.deleteGroup(request);
     }
 }

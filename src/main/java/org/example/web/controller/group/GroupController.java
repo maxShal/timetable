@@ -27,30 +27,30 @@ public class GroupController {
     @GetMapping
     @ResponseBody
     public GetGroupResponse getAllGroups() {
-        return groupService.GetAllGroups();
+        return new GetGroupResponse(groupService.GetAllGroups());
     }
 
     @GetMapping("id")
     public GetGroupByIdResponse getGroupById(@PathVariable("id") GetGroupByIdRequest request) throws EmptyDataException {
-        return groupService.getGroupById(request);
+        return new GetGroupByIdResponse(groupService.getGroupById(request));
     }
 
 
     @PostMapping()
     @ResponseBody
-    public AddGroupResponse addStudentGroup(@Valid @RequestBody AddGroupRequest request) {
-        return groupService.addGroup(request);
+    public AddGroupResponse addStudentGroup(@Valid @RequestBody AddGroupRequest request) throws EmptyDataException {
+        return new AddGroupResponse(groupService.addGroup(request));
     }
 
     @PutMapping()
     @ResponseBody
     public EditGroupResponse editStudentGroup(@Valid @RequestBody EditGroupRequest request) throws EmptyDataException {
-        return groupService.editGroup(request);
+        return new EditGroupResponse(groupService.editGroup(request));
     }
 
     @DeleteMapping("/id")
     @ResponseBody
-    public void deleteStudentGroup(@Valid @RequestBody DeleteGroupRequest request) {
+    public void deleteStudentGroup(@Valid @RequestBody DeleteGroupRequest request) throws EmptyDataException {
        groupService.deleteGroup(request);
     }
 }

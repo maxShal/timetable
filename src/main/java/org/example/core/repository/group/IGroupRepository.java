@@ -1,16 +1,17 @@
 package org.example.core.repository.group;
+import org.example.core.model.Group;
 import org.example.web.model.group.*;
 import org.example.core.EmptyDataException;
-;
+;import java.util.List;
 
 public interface IGroupRepository {
-    GetGroupResponse getGroup();
+    List<Group> getGroup();
 
-    GetGroupByIdResponse getGroupById(GetGroupByIdRequest request) throws EmptyDataException;
+    Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException;
 
-    AddGroupResponse addGroup(AddGroupRequest request) throws EmptyDataException;
+    long addGroup(AddGroupRequest request) throws EmptyDataException;
 
-    EditGroupResponse editGroup(EditGroupRequest request) throws EmptyDataException;
+    void editGroup(EditGroupRequest request) throws EmptyDataException;
 
     void deleteGroup(DeleteGroupRequest request) throws EmptyDataException;
 }
