@@ -30,8 +30,8 @@ public class GroupController {
         return new GetGroupResponse(groupService.GetAllGroups());
     }
 
-    @GetMapping("id")
-    public GetGroupByIdResponse getGroupById(@PathVariable("id") GetGroupByIdRequest request) throws EmptyDataException {
+    @GetMapping("/{id}")
+    public GetGroupByIdResponse getGroupById(@PathVariable("id") long request) throws EmptyDataException {
         return new GetGroupByIdResponse(groupService.getGroupById(request));
     }
 
@@ -48,7 +48,7 @@ public class GroupController {
         return new EditGroupResponse(groupService.editGroup(request));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public void deleteStudentGroup(@Valid @RequestBody DeleteGroupRequest request) throws EmptyDataException {
        groupService.deleteGroup(request);

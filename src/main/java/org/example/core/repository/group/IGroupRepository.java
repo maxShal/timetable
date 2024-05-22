@@ -7,7 +7,7 @@ import org.example.core.EmptyDataException;
 public interface IGroupRepository {
     List<Group> getGroup();
 
-    Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException;
+    Group getGroupById(long request) throws EmptyDataException;
 
     long addGroup(AddGroupRequest request) throws EmptyDataException;
 

@@ -40,12 +40,12 @@ public class GroupRepository implements IGroupRepository{
     }
 
     @Override
-    public Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
+    public Group getGroupById(long request) throws EmptyDataException {
         try{
-        String sql = "select group_name from groups where group_id=?";
-        return jdbcOperations.queryForObject(sql,grouRowMapper,request.getGroupId());}
+        String sql = "select * from groups where group_id=?";
+        return jdbcOperations.queryForObject(sql,grouRowMapper,request);}
         catch (DataAccessException e) {
-            throw new EmptyDataException("Group with id: " + request.getGroupId() + " not found!");
+            throw new EmptyDataException("Group with id: " + request + " not found!");
         }
 
     }

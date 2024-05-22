@@ -24,8 +24,8 @@ public class GroupService implements IGroupService
     }
 
     @Override
-    public Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException {
-        return groupRepository.getGroupById(request);
+    public Group getGroupById(long id) throws EmptyDataException {
+        return groupRepository.getGroupById(id);
     }
 
     @Override

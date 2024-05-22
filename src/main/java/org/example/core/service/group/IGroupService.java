@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IGroupService {
     List<Group> GetAllGroups();
-    Group getGroupById(GetGroupByIdRequest request) throws EmptyDataException;
+    Group getGroupById(long id) throws EmptyDataException;
     long addGroup(AddGroupRequest request) throws EmptyDataException;
     String editGroup(EditGroupRequest request) throws EmptyDataException;
     void deleteGroup(DeleteGroupRequest request) throws EmptyDataException;

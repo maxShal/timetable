@@ -1,64 +1,84 @@
 package org.example.core.model;
 
+import java.util.Objects;
+
 public class Student
 {
-    private final String name;
-    private final String surname;
-    private final String patronymic;
+    private  long id;
+    private  String name;
+    private  String surname;
+    private  String status;
+    private long groupId;
 
-    public enum Status{
-        STUDYING, VACATION, DISMISSED
-    }
-
-    private Status status;
-    private Group group;
-
-    public Student(String name, String surname, String patronymic) {
+    public Student(long id, String name, String surname, String status, long groupId) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
-        this.patronymic = patronymic;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
         this.status = status;
+        this.groupId = groupId;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPatronymic() {
-        return patronymic;
-    }
-
     public String getSurname() {
         return surname;
     }
 
-    public boolean equals(Student student) {
-        return this.surname.equals(student.getSurname()) && this.name.equals(student.getName()) && this.patronymic.equals(student.getPatronymic()) && this.status == student.status;
+    public String getStatus() {
+        return status;
+    }
+
+    public long getGroupId() {
+        return groupId;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setGroupId(long groupId) {
+        this.groupId = groupId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && groupId == student.groupId && Objects.equals(name, student.name) && Objects.equals(surname, student.surname) && Objects.equals(status, student.status);
     }
 
     @Override
     public int hashCode() {
-        return this.name.hashCode() + this.surname.hashCode() + this.patronymic.hashCode() + this.status.hashCode();
+        return Objects.hash(id, name, surname, status, groupId);
     }
 
     @Override
     public String toString() {
-        return "name='" + name + '\'' +
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", status=" + status +
-                ", group=" + group;
+                ", status='" + status + '\'' +
+                ", groupId=" + groupId +
+                '}';
     }
 }

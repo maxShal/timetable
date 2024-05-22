@@ -7,13 +7,13 @@ import java.util.Objects;
 
 public class GetGroupByIdRequest {
     @JsonProperty("id")
-    private int groupId;
+    private long groupId;
 
     @JsonCreator
-    public GetGroupByIdRequest(@JsonProperty("id") int groupId) {
+    public GetGroupByIdRequest(@JsonProperty("id") long groupId) {
         this.groupId = groupId;
     }
-    public int getGroupId() {
+    public long getGroupId() {
         return groupId;
     }
 
