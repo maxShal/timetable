@@ -7,6 +7,7 @@ public class Student
     private  long id;
     private  String name;
     private  String surname;
+    private  String patronymic;
     private  String status;
     private long groupId;
 
@@ -16,6 +17,10 @@ public class Student
         this.surname = surname;
         this.status = status;
         this.groupId = groupId;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
     }
 
     public long getId() {

@@ -1,15 +1,25 @@
-package org.example.core.model;
+package org.example.web.model.lesson;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Lesson {
+public class EditLessonRequest {
+
+    @JsonProperty("id")
     private long id;
+    @JsonProperty("date")
     private String date;
+    @JsonProperty("numberInSchedule")
     private long numberInSchedule;
+    @JsonProperty("subjectId")
     private long subjectId;
+    @JsonProperty("teacherId")
     private long teacherId;
 
-    public Lesson(long id, String date, long numberInSchedule, long subjectId, long teacherId) {
+    @JsonCreator
+    public EditLessonRequest(@JsonProperty("id") long id,@JsonProperty("date") String date,@JsonProperty("numberInSchedule") long numberInSchedule,@JsonProperty("subjectId") long subjectId,@JsonProperty("teacherId") long teacherId) {
         this.id = id;
         this.date = date;
         this.numberInSchedule = numberInSchedule;
@@ -72,7 +82,7 @@ public class Lesson {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Lesson lesson = (Lesson) o;
+        EditLessonRequest lesson = (EditLessonRequest) o;
         return id == lesson.id && numberInSchedule == lesson.numberInSchedule && subjectId == lesson.subjectId && teacherId == lesson.teacherId && Objects.equals(date, lesson.date);
     }
 

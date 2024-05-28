@@ -6,8 +6,7 @@ import org.example.core.EmptyDataException;
 import org.example.core.model.Student;
 import org.example.core.service.group.IGroupService;
 import org.example.core.service.student.IStudentService;
-import org.example.web.model.student.AddStudentRequest;
-import org.example.web.model.student.AddStudentResponse;
+import org.example.web.model.student.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +23,8 @@ public class StudentController
 
     @GetMapping
     @ResponseBody
-    public List<Student> getStudentsByGroupId(long id) throws EmptyDataException {
-        return studentService.getStudentsByGroupId(id);
+    public GetStudentByIdGroupResponse getStudentsByGroupId(GetStudentByIdGroupRequest groupid) throws EmptyDataException {
+        return new GetStudentByIdGroupResponse(studentService.getStudentsByGroupId(groupid));
     }
 
     @GetMapping("/{id}")
@@ -41,12 +40,12 @@ public class StudentController
 
     @PutMapping
     @ResponseBody
-    public void editStudent(@RequestBody Student student) throws EmptyDataException {
-        studentService.editStudent(student);
+    public EditStudentResponse editStudent(@RequestBody EditStudentRequest student) throws EmptyDataException {
+        return new EditStudentResponse(studentService.editStudent(student));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudentById(long id) throws EmptyDataException {
+    public void deleteStudentById(DeleteStudentRequest id) throws EmptyDataException {
         studentService.deleteStudentById(id);
     }
 }

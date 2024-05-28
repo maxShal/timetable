@@ -60,7 +60,7 @@ public class GroupRepository implements IGroupRepository{
                 preparedStatement.setString(1, request.getName());
                 return preparedStatement;
             };
-            //jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
+            jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
             return jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
         } catch (DataAccessException e) {
             throw new EmptyDataException("Can't add group with name" + request.getName());

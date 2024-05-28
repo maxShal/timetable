@@ -3,6 +3,9 @@ package org.example.core.repository.student;
 import org.example.core.EmptyDataException;
 import org.example.core.model.Student;
 import org.example.web.model.student.AddStudentRequest;
+import org.example.web.model.student.DeleteStudentRequest;
+import org.example.web.model.student.EditStudentRequest;
+import org.example.web.model.student.GetStudentByIdGroupRequest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -33,9 +36,9 @@ public class StudentRepository implements IStudentRepository{
     }
 
     @Override
-    public List<Student> getStudentsByGroupId(long id) {
+    public List<Student> getStudentsByGroupId(GetStudentByIdGroupRequest request) {
         String sql = "select * from students where group_id = ?";;
-        return jdbcOperations.query(sql, grouRowMapper, id);
+        return jdbcOperations.query(sql, grouRowMapper, request.getGroupId());
     }
 
     @Override
@@ -47,7 +50,7 @@ public class StudentRepository implements IStudentRepository{
     @Override
     public long addStudent(AddStudentRequest request) throws EmptyDataException {
         try {
-            String sql = "insert into students (student_surname, student_name, student_status, group_id ) values(?)";
+            String sql = "insert into students (student_surname, student_name, student_patronymic,student_status, group_id ) values(?,?,?,?,?)";
             GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
             PreparedStatementCreator preparedStatementCreator = conn -> {
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, new String[]{"student_id"});
@@ -58,31 +61,34 @@ public class StudentRepository implements IStudentRepository{
                 preparedStatement.setLong(5, request.getGroupId());
                 return preparedStatement;
             };
+           /* jdbcOperations.queryForObject("",(i,column)->{*/
+
+           /* });*/
              jdbcOperations.update(preparedStatementCreator, generatedKeyHolder);
             return Objects.requireNonNull(generatedKeyHolder.getKey()).longValue();
-        }catch(DataAccessException e){throw new EmptyDataException("Can't add student with name");}
+        }catch(DataAccessException e){throw new EmptyDataException(e.getMessage());}
     }
 
     @Override
-    public void editStudent(Student student) throws EmptyDataException{
+    public void editStudent(EditStudentRequest student) throws EmptyDataException{
         try {
-            String sql = "update students set student_surname = ?, student_name = ?, student_status = ?, group_id = ? where student_id = ?";
-            int rowsChanged = jdbcOperations.update(sql, student.getName(), student.getId());
+            String sql = "update students set student_surname = ?, student_name = ?, student_patronymic = ?,student_status = ?, group_id = ? where student_id = ?";
+            int rowsChanged = jdbcOperations.update(sql, student.getSurname(),student.getName(), student.getPatronymic() ,student.getStatus(),student.getGroupId(), student.getId());
             if (rowsChanged == 0) {
                 throw new EmptyDataException("Can't edit student: " + student.getName());
             }
         } catch (DataAccessException e) {
-            throw new EmptyDataException("Can't edit student: " + student.getName());
+            throw new EmptyDataException(e.getMessage());
         }
 
     }
 
     @Override
-    public void deleteStudentById(long id) throws EmptyDataException {
+    public void deleteStudentById(DeleteStudentRequest request) throws EmptyDataException {
         String sql = "delete from students where student_id = ?";
-        int rowsChanged = jdbcOperations.update(sql, id);
+        int rowsChanged = jdbcOperations.update(sql, request.getId());
         if (rowsChanged == 0) {
-            throw new EmptyDataException("Can't delete group with id: " + id);
+            throw new EmptyDataException("Can't delete group with id: " + request.getId());
         }
     }
 }

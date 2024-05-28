@@ -4,6 +4,9 @@ import org.example.core.EmptyDataException;
 import org.example.core.model.Student;
 import org.example.core.repository.student.IStudentRepository;
 import org.example.web.model.student.AddStudentRequest;
+import org.example.web.model.student.DeleteStudentRequest;
+import org.example.web.model.student.EditStudentRequest;
+import org.example.web.model.student.GetStudentByIdGroupRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,7 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public List<Student> getStudentsByGroupId(long id) throws EmptyDataException {
+    public List<Student> getStudentsByGroupId(GetStudentByIdGroupRequest id) throws EmptyDataException {
         return studentRepository.getStudentsByGroupId(id);
     }
 
@@ -33,12 +36,13 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public void editStudent(Student student) throws EmptyDataException {
+    public String editStudent(EditStudentRequest student) throws EmptyDataException {
         studentRepository.editStudent(student);
+        return student.getSurname();
     }
 
     @Override
-    public void deleteStudentById(long id) throws EmptyDataException {
+    public void deleteStudentById(DeleteStudentRequest id) throws EmptyDataException {
         studentRepository.deleteStudentById(id);
     }
 }
